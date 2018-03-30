@@ -9,9 +9,11 @@ object Calculator {
     private var formula = ""
     private var result = ""
 
-    fun findExpressionResult(input: String): Double {
-        //TODO: remove last digit? eg: "8*8."
-        return ExpressionBuilder(input)
+    private fun findExpressionResult(input: String): Double {
+        var tmp = input
+        tmp = tmp.replace("√","sqrt")
+        tmp = tmp.replace("mod","%")
+        return ExpressionBuilder(tmp)
                 .build().evaluate()
     }
 
@@ -30,9 +32,9 @@ object Calculator {
             MINUS -> formula += "-"
             MULTIPLY -> formula += "*"
             DIVIDE -> formula += "/"
-            MODULO -> formula += "%"
+            MODULO -> formula += "mod"
             POWER -> formula += "^"
-            ROOT -> formula += "sqrt"//	√
+            ROOT -> formula += "√"//sqrt
         }
         result = try {//TODO timeout
             findExpressionResult(formula).toString()
@@ -82,7 +84,7 @@ object Calculator {
     }
 
     fun handleEquals() {
-        formula = result
+        formula = trimDecimal(result)
     }
 
     fun trimDecimal(input: String): String {
