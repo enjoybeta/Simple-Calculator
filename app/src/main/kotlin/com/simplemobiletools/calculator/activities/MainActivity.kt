@@ -1,6 +1,5 @@
 package com.simplemobiletools.calculator.activities
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -18,48 +17,112 @@ import com.simplemobiletools.commons.helpers.LICENSE_ESPRESSO
 import com.simplemobiletools.commons.helpers.LICENSE_KOTLIN
 import com.simplemobiletools.commons.helpers.LICENSE_ROBOLECTRIC
 import com.simplemobiletools.commons.models.FAQItem
-import com.simplemobiletools.commons.models.Release
 import kotlinx.android.synthetic.main.activity_main.*
 import me.grantland.widget.AutofitHelper
 
-class MainActivity : SimpleActivity(), Calculator {
+
+class MainActivity : SimpleActivity() {
     private var storedTextColor = 0
     private var vibrateOnButtonPress = true
     private var storedUseEnglish = false
 
-    lateinit var calc: CalculatorImpl
+    private var calc: Calculator = Calculator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         appLaunched()
 
-        calc = CalculatorImpl(this, applicationContext)
-
-        btn_plus.setOnClickListener { calc.handleOperation(PLUS); checkHaptic(it) }
-        btn_minus.setOnClickListener { calc.handleOperation(MINUS); checkHaptic(it) }
-        btn_multiply.setOnClickListener { calc.handleOperation(MULTIPLY); checkHaptic(it) }
-        btn_divide.setOnClickListener { calc.handleOperation(DIVIDE); checkHaptic(it) }
-        btn_modulo.setOnClickListener { calc.handleOperation(MODULO); checkHaptic(it) }
-        btn_power.setOnClickListener { calc.handleOperation(POWER); checkHaptic(it) }
-        btn_root.setOnClickListener { calc.handleOperation(ROOT); checkHaptic(it) }
-
-        btn_clear.setOnClickListener { calc.handleClear(); checkHaptic(it) }
-        btn_clear.setOnLongClickListener { calc.handleReset(); true }
-
-        getButtonIds().forEach {
-            it.setOnClickListener { calc.numpadClicked(it.id); checkHaptic(it) }
-        }
-
-        btn_equals.setOnClickListener { calc.handleEquals(); checkHaptic(it) }
-        formula.setOnLongClickListener { copyToClipboard(false) }
-        result.setOnLongClickListener { copyToClipboard(true) }
+        setListeners()
+        //Calculator.findExpressionResult("x")
 
         AutofitHelper.create(result)
         AutofitHelper.create(formula)
         storeStateVariables()
         updateViewColors(calculator_holder, config.textColor)
-        checkWhatsNewDialog()
+    }
+
+    private fun setListeners() {
+        //.
+        btn_decimal.setOnClickListener {
+            calc.handleOperation(DECIMAL)
+            updateView()
+        }
+        //+
+        btn_plus.setOnClickListener {
+            calc.handleOperation(PLUS)
+            doClickAnimation(it)
+            updateView()
+        }
+        //-
+        btn_minus.setOnClickListener {
+            calc.handleOperation(MINUS)
+            doClickAnimation(it)
+            updateView()
+        }
+        //*
+        btn_multiply.setOnClickListener {
+            calc.handleOperation(MULTIPLY)
+            doClickAnimation(it)
+            updateView()
+        }
+        ///
+        btn_divide.setOnClickListener {
+            calc.handleOperation(DIVIDE)
+            doClickAnimation(it)
+            updateView()
+        }
+        //mod
+        btn_modulo.setOnClickListener {
+            calc.handleOperation(MODULO)
+            doClickAnimation(it)
+            updateView()
+        }
+        //^
+        btn_power.setOnClickListener {
+            calc.handleOperation(POWER)
+            doClickAnimation(it)
+            updateView()
+        }
+        //^
+        btn_root.setOnClickListener {
+            calc.handleOperation(ROOT)
+            doClickAnimation(it)
+            updateView()
+        }
+        //c
+        btn_clear.setOnClickListener {
+            calc.handleDelete()
+            doClickAnimation(it)
+            updateView()
+        }
+        //ccc
+        btn_clear.setOnLongClickListener {
+            calc.handleReset()
+            updateView()
+            true
+        }
+        //0-9
+        getButtonIds().forEach {
+            it.setOnClickListener {
+                calc.numberClicked(it.id)
+                doClickAnimation(it)
+                updateView()
+            }
+        }
+        //=
+        btn_equals.setOnClickListener {
+            calc.handleEquals()
+            doClickAnimation(it)
+            updateView()
+        }
+        formula.setOnLongClickListener { copyToClipboard(false) }
+        result.setOnLongClickListener { copyToClipboard(true) }
+    }
+
+    private fun updateView() {
+        formula.text = calc.getFormulaText()
+        result.text = calc.trimDecimal(calc.getResultText())
     }
 
     override fun onResume() {
@@ -109,7 +172,7 @@ class MainActivity : SimpleActivity(), Calculator {
         }
     }
 
-    private fun checkHaptic(view: View) {
+    private fun doClickAnimation(view: View) {
         if (vibrateOnButtonPress) {
             view.performHapticFeedback()
         }
@@ -129,7 +192,7 @@ class MainActivity : SimpleActivity(), Calculator {
         startAboutActivity(R.string.app_name, LICENSE_KOTLIN or LICENSE_AUTOFITTEXTVIEW or LICENSE_ROBOLECTRIC or LICENSE_ESPRESSO, BuildConfig.VERSION_NAME, faqItems)
     }
 
-    private fun getButtonIds() = arrayOf(btn_decimal, btn_0, btn_1, btn_2, btn_3, btn_4, btn_5, btn_6, btn_7, btn_8, btn_9)
+    private fun getButtonIds() = arrayOf(btn_0, btn_1, btn_2, btn_3, btn_4, btn_5, btn_6, btn_7, btn_8, btn_9)
 
     private fun copyToClipboard(copyResult: Boolean): Boolean {
         var value = formula.value
@@ -145,24 +208,4 @@ class MainActivity : SimpleActivity(), Calculator {
         }
     }
 
-    override fun setValue(value: String, context: Context) {
-        result.text = value
-    }
-
-    private fun checkWhatsNewDialog() {
-        arrayListOf<Release>().apply {
-            add(Release(18, R.string.release_18))
-            checkWhatsNew(this, BuildConfig.VERSION_CODE)
-        }
-    }
-
-    // used only by Robolectric
-    override fun setValueDouble(d: Double) {
-        calc.setValue(Formatter.doubleToString(d))
-        calc.lastKey = DIGIT
-    }
-
-    override fun setFormula(value: String, context: Context) {
-        formula.text = value
-    }
 }
