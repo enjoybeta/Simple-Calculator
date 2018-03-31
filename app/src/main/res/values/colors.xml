@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <color name="pressed_item_foreground">#fff</color>
+    <color name="color_primary">#000</color>
+    <color name="color_secondary">#f5f5f5</color>
 </resources>
