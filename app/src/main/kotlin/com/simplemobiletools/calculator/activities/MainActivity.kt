@@ -1,15 +1,19 @@
 package com.simplemobiletools.calculator.activities
 
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.app.FragmentPagerAdapter
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
 import com.simplemobiletools.calculator.BuildConfig
-import com.simplemobiletools.calculator.R
+import com.simplemobiletools.calculator.*
 import com.simplemobiletools.calculator.extensions.config
 import com.simplemobiletools.calculator.extensions.updateViewColors
+import com.simplemobiletools.calculator.fragments.OneFragment
 import com.simplemobiletools.calculator.helpers.*
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.LICENSE_AUTOFITTEXTVIEW
@@ -32,8 +36,11 @@ class MainActivity : SimpleActivity() {
         setContentView(R.layout.activity_main)
         appLaunched()
 
-        setListeners()
-        //Calculator.findExpressionResult("x")
+        //setListeners()
+        val adapter = ViewPagerAdapter(supportFragmentManager)
+        adapter.addFragment(OneFragment(), "1st")
+        adapter.addFragment(OneFragment(), "2nd")
+        viewPager.adapter = adapter
 
         AutofitHelper.create(result)
         AutofitHelper.create(formula)
@@ -41,83 +48,104 @@ class MainActivity : SimpleActivity() {
         updateViewColors(calculator_holder, config.textColor)
     }
 
-    private fun setListeners() {
-        //.
-        btn_decimal.setOnClickListener {
-            calc.handleOperation(DECIMAL)
-            updateView()
+    internal inner class ViewPagerAdapter(manager: FragmentManager) : FragmentPagerAdapter(manager) {
+        private val mFragmentList = ArrayList<Fragment>()
+        private val mFragmentTitleList = ArrayList<String>()
+
+        override fun getItem(position: Int): Fragment {
+            return mFragmentList[position]
         }
-        //+
-        btn_plus.setOnClickListener {
-            calc.handleOperation(PLUS)
-            doClickAnimation(it)
-            updateView()
+
+        override fun getCount(): Int {
+            return mFragmentList.size
         }
-        //-
-        btn_minus.setOnClickListener {
-            calc.handleOperation(MINUS)
-            doClickAnimation(it)
-            updateView()
+
+        fun addFragment(fragment: Fragment, title: String) {
+            mFragmentList.add(fragment)
+            mFragmentTitleList.add(title)
         }
-        //*
-        btn_multiply.setOnClickListener {
-            calc.handleOperation(MULTIPLY)
-            doClickAnimation(it)
-            updateView()
+
+        override fun getPageTitle(position: Int): CharSequence {
+            return mFragmentTitleList[position]
         }
-        ///
-        btn_divide.setOnClickListener {
-            calc.handleOperation(DIVIDE)
-            doClickAnimation(it)
-            updateView()
-        }
-        //mod
-        btn_modulo.setOnClickListener {
-            calc.handleOperation(MODULO)
-            doClickAnimation(it)
-            updateView()
-        }
-        //^
-        btn_power.setOnClickListener {
-            calc.handleOperation(POWER)
-            doClickAnimation(it)
-            updateView()
-        }
-        //^
-        btn_root.setOnClickListener {
-            calc.handleOperation(ROOT)
-            doClickAnimation(it)
-            updateView()
-        }
-        //c
-        btn_clear.setOnClickListener {
-            calc.handleDelete()
-            doClickAnimation(it)
-            updateView()
-        }
-        //ccc
-        btn_clear.setOnLongClickListener {
-            calc.handleReset()
-            updateView()
-            true
-        }
-        //0-9
-        getButtonIds().forEach {
-            it.setOnClickListener {
-                calc.numberClicked(it.id)
-                doClickAnimation(it)
-                updateView()
-            }
-        }
-        //=
-        btn_equals.setOnClickListener {
-            calc.handleEquals()
-            doClickAnimation(it)
-            updateView()
-        }
-        formula.setOnLongClickListener { copyToClipboard(false) }
-        result.setOnLongClickListener { copyToClipboard(true) }
     }
+//    private fun setListeners() {
+//        //.
+//        btn_decimal.setOnClickListener {
+//            calc.handleOperation(DECIMAL)
+//            updateView()
+//        }
+//        //+
+//        btn_plus.setOnClickListener {
+//            calc.handleOperation(PLUS)
+//            doClickAnimation(it)
+//            updateView()
+//        }
+//        //-
+//        btn_minus.setOnClickListener {
+//            calc.handleOperation(MINUS)
+//            doClickAnimation(it)
+//            updateView()
+//        }
+//        //*
+//        btn_multiply.setOnClickListener {
+//            calc.handleOperation(MULTIPLY)
+//            doClickAnimation(it)
+//            updateView()
+//        }
+//        ///
+//        btn_divide.setOnClickListener {
+//            calc.handleOperation(DIVIDE)
+//            doClickAnimation(it)
+//            updateView()
+//        }
+//        //mod
+//        btn_modulo.setOnClickListener {
+//            calc.handleOperation(MODULO)
+//            doClickAnimation(it)
+//            updateView()
+//        }
+//        //^
+//        btn_power.setOnClickListener {
+//            calc.handleOperation(POWER)
+//            doClickAnimation(it)
+//            updateView()
+//        }
+//        //^
+//        btn_root.setOnClickListener {
+//            calc.handleOperation(ROOT)
+//            doClickAnimation(it)
+//            updateView()
+//        }
+//        //c
+//        btn_clear.setOnClickListener {
+//            calc.handleDelete()
+//            doClickAnimation(it)
+//            updateView()
+//        }
+//        //ccc
+//        btn_clear.setOnLongClickListener {
+//            calc.handleReset()
+//            updateView()
+//            true
+//        }
+//        //0-9
+//        getButtonIds().forEach {
+//            it.setOnClickListener {
+//                calc.numberClicked(it.id)
+//                doClickAnimation(it)
+//                updateView()
+//            }
+//        }
+//        //=
+//        btn_equals.setOnClickListener {
+//            calc.handleEquals()
+//            doClickAnimation(it)
+//            updateView()
+//        }
+//        formula.setOnLongClickListener { copyToClipboard(false) }
+//        result.setOnLongClickListener { copyToClipboard(true) }
+//    }
 
     private fun updateView() {
         formula.text = calc.getFormulaText()
@@ -185,7 +213,7 @@ class MainActivity : SimpleActivity() {
         startActivity(Intent(applicationContext, SettingsActivity::class.java))
     }
 
-    private fun getButtonIds() = arrayOf(btn_0, btn_1, btn_2, btn_3, btn_4, btn_5, btn_6, btn_7, btn_8, btn_9)
+    //private fun getButtonIds() = arrayOf(btn_0, btn_1, btn_2, btn_3, btn_4, btn_5, btn_6, btn_7, btn_8, btn_9)
 
     private fun copyToClipboard(copyResult: Boolean): Boolean {
         var value = formula.value

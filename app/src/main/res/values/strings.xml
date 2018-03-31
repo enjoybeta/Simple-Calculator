@@ -18,6 +18,9 @@
         This app is just one piece of a bigger series of apps. You can find the rest of them at http://www.simplemobiletools.com
     </string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
