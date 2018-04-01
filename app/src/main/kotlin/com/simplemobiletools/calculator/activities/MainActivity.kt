@@ -12,6 +12,11 @@ import com.simplemobiletools.calculator.fragments.FragmentButtons
 import com.simplemobiletools.calculator.helpers.*
 import kotlinx.android.synthetic.main.activity_main.*
 import me.grantland.widget.AutofitHelper
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Intent
+import android.view.MenuItem
+import android.widget.Toast
 
 var vibrateOnButtonPress = true
 val buttonconfig1 = ButtonConfig()
@@ -23,11 +28,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        setupCopy2Clipboard()
         Calculator.setOnItemClickListener { updateView() }
 
+        //setup fragments
         val adapter = ViewPagerAdapter(supportFragmentManager)
         val frag1 = FragmentButtons()
         val frag2 = FragmentButtons()
+        buttonconfig1.initConfig1()
+        buttonconfig2.initConfig2()
         frag1.init(buttonconfig1)
         frag2.init(buttonconfig2)
         adapter.addFragment(frag1, "1st")
@@ -60,6 +69,22 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun setupCopy2Clipboard() {
+        formula.setOnLongClickListener {
+            val clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText("text", formula.text)
+            clipboard.primaryClip = clip
+            Toast.makeText(this, "Copied to clipboard", Toast.LENGTH_SHORT).show()
+            true
+        }
+        result.setOnLongClickListener {
+            val clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText("text", result.text)
+            clipboard.primaryClip = clip
+            Toast.makeText(this, "Copied to clipboard", Toast.LENGTH_SHORT).show()
+            true
+        }
+    }
 
     private fun updateView() {
         formula.text = Calculator.getFormulaText()
@@ -72,18 +97,12 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-//    private fun copyToClipboard(copyResult: Boolean): Boolean {
-//        var value = formula.text
-//        if (copyResult) {
-//            value = result.text
-//        }
-//
-//        return if (value.isEmpty()) {
-//            false
-//        } else {
-//            copyToClipboard(value)
-//            true
-//        }
-//    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.config -> startActivity(Intent(applicationContext, ConfigActivity::class.java))
+            else -> return super.onOptionsItemSelected(item)
+        }
+        return true
+    }
 
 }

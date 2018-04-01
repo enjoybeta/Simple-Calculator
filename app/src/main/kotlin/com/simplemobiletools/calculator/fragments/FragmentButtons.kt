@@ -12,6 +12,8 @@ import com.simplemobiletools.calculator.buttons.Buttons
 import kotlinx.android.synthetic.main.fragment_buttons.*
 
 class FragmentButtons : Fragment() {
+    private lateinit var buttonconfig: ButtonConfig
+
     private lateinit var buttonObj11: Buttons
     private lateinit var buttonObj12: Buttons
     private lateinit var buttonObj13: Buttons
@@ -38,26 +40,23 @@ class FragmentButtons : Fragment() {
     private lateinit var buttonObj54: Buttons
 
     fun init(bc: ButtonConfig) {
+        buttonconfig = bc
         buttonObj11 = ButtonFactory.getButtonInstance(bc.btn11)
         buttonObj12 = ButtonFactory.getButtonInstance(bc.btn12)
         buttonObj13 = ButtonFactory.getButtonInstance(bc.btn13)
         buttonObj14 = ButtonFactory.getButtonInstance(bc.btn14)
-
         buttonObj21 = ButtonFactory.getButtonInstance(bc.btn21)
         buttonObj22 = ButtonFactory.getButtonInstance(bc.btn22)
         buttonObj23 = ButtonFactory.getButtonInstance(bc.btn23)
         buttonObj24 = ButtonFactory.getButtonInstance(bc.btn24)
-
         buttonObj31 = ButtonFactory.getButtonInstance(bc.btn31)
         buttonObj32 = ButtonFactory.getButtonInstance(bc.btn32)
         buttonObj33 = ButtonFactory.getButtonInstance(bc.btn33)
         buttonObj34 = ButtonFactory.getButtonInstance(bc.btn34)
-
         buttonObj41 = ButtonFactory.getButtonInstance(bc.btn41)
         buttonObj42 = ButtonFactory.getButtonInstance(bc.btn42)
         buttonObj43 = ButtonFactory.getButtonInstance(bc.btn43)
         buttonObj44 = ButtonFactory.getButtonInstance(bc.btn44)
-
         buttonObj51 = ButtonFactory.getButtonInstance(bc.btn51)
         buttonObj52 = ButtonFactory.getButtonInstance(bc.btn52)
         buttonObj53 = ButtonFactory.getButtonInstance(bc.btn53)
@@ -72,6 +71,34 @@ class FragmentButtons : Fragment() {
         super.onStart()
         setClickListeners()
         setLongClickListeners()
+        initButtonText()
+    }
+
+    private fun initButtonText(){
+        btn_11.text = ButtonFactory.getSymbol(buttonconfig.btn11)
+        btn_12.text = ButtonFactory.getSymbol(buttonconfig.btn12)
+        btn_13.text = ButtonFactory.getSymbol(buttonconfig.btn13)
+        btn_14.text = ButtonFactory.getSymbol(buttonconfig.btn14)
+
+        btn_21.text = ButtonFactory.getSymbol(buttonconfig.btn21)
+        btn_22.text = ButtonFactory.getSymbol(buttonconfig.btn22)
+        btn_23.text = ButtonFactory.getSymbol(buttonconfig.btn23)
+        btn_24.text = ButtonFactory.getSymbol(buttonconfig.btn24)
+
+        btn_31.text = ButtonFactory.getSymbol(buttonconfig.btn31)
+        btn_32.text = ButtonFactory.getSymbol(buttonconfig.btn32)
+        btn_33.text = ButtonFactory.getSymbol(buttonconfig.btn33)
+        btn_34.text = ButtonFactory.getSymbol(buttonconfig.btn34)
+
+        btn_41.text = ButtonFactory.getSymbol(buttonconfig.btn41)
+        btn_42.text = ButtonFactory.getSymbol(buttonconfig.btn42)
+        btn_43.text = ButtonFactory.getSymbol(buttonconfig.btn43)
+        btn_44.text = ButtonFactory.getSymbol(buttonconfig.btn44)
+
+        btn_51.text = ButtonFactory.getSymbol(buttonconfig.btn51)
+        btn_52.text = ButtonFactory.getSymbol(buttonconfig.btn52)
+        btn_53.text = ButtonFactory.getSymbol(buttonconfig.btn53)
+        btn_54.text = ButtonFactory.getSymbol(buttonconfig.btn54)
     }
 
     private fun setClickListeners() {

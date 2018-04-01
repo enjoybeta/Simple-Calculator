@@ -5,6 +5,8 @@ import com.simplemobiletools.calculator.buttons.ButtonFactory.ButtonType.*
 
 object ButtonFactory {
     enum class ButtonType {
+        EMPTY,
+
         ZERO,
         ONE,
         TWO,
@@ -35,7 +37,45 @@ object ButtonFactory {
         LOG,
         PI,
         BRACKET_LEFT,
-        BRACKET_RIGHT
+        BRACKET_RIGHT;
+    }
+
+    fun getSymbol(m: ButtonFactory.ButtonType): String {
+        return when (m) {
+            EMPTY -> ""
+            ZERO -> "0"
+            ONE -> "1"
+            TWO -> "2"
+            THREE -> "3"
+            FOUR -> "4"
+            FIVE -> "5"
+            SIX -> "6"
+            SEVEN -> "7"
+            EIGHT -> "8"
+            NINE -> "9"
+
+            DECIMAL -> "."
+            EQUAL -> "="
+            DEL -> "Del"
+
+            PLUS -> "+"
+            MINUS -> "-"
+            MULTIPLY -> "*"
+            DIVIDE -> "/"
+
+            MOD -> "mod"
+            POWER -> "^"
+            ROOT_SQUARE -> "√"
+            ROOT_CUBE -> "∛"
+            SIN -> "sin"
+            COS -> "cos"
+            TAN -> "tan"
+            LOG -> "log"
+            PI -> "π"
+            BRACKET_LEFT -> "("
+            BRACKET_RIGHT -> ")"
+            else -> "error"
+        }
     }
 
     /**
@@ -43,6 +83,7 @@ object ButtonFactory {
      */
     fun getButtonInstance(type: ButtonType): Buttons {
         return when (type) {
+            EMPTY -> BtnEmpty()
             ZERO -> BtnZero()
             ONE -> BtnOne()
             TWO -> BtnTwo()
@@ -78,6 +119,11 @@ object ButtonFactory {
         }
     }
 
+    private class BtnEmpty : Buttons {
+        override fun handleClick() {}
+        override fun handleLongClick() {}
+    }
+
     private class BtnZero : Buttons {
         override fun handleClick() {
             if (Calculator.formula != "0") {
@@ -90,7 +136,7 @@ object ButtonFactory {
 
     private class BtnOne : Buttons {
         override fun handleClick() {
-            Calculator.formula += "1"
+            Calculator.formula += getSymbol(ONE)
         }
 
         override fun handleLongClick() {}
@@ -98,7 +144,7 @@ object ButtonFactory {
 
     private class BtnTwo : Buttons {
         override fun handleClick() {
-            Calculator.formula += "2"
+            Calculator.formula += getSymbol(TWO)
         }
 
         override fun handleLongClick() {}
@@ -106,7 +152,7 @@ object ButtonFactory {
 
     private class BtnThree : Buttons {
         override fun handleClick() {
-            Calculator.formula += "3"
+            Calculator.formula += getSymbol(THREE)
         }
 
         override fun handleLongClick() {}
@@ -114,7 +160,7 @@ object ButtonFactory {
 
     private class BtnFour : Buttons {
         override fun handleClick() {
-            Calculator.formula += "4"
+            Calculator.formula += getSymbol(FOUR)
         }
 
         override fun handleLongClick() {}
@@ -122,7 +168,7 @@ object ButtonFactory {
 
     private class BtnFive : Buttons {
         override fun handleClick() {
-            Calculator.formula += "5"
+            Calculator.formula += getSymbol(FIVE)
         }
 
         override fun handleLongClick() {}
@@ -130,7 +176,7 @@ object ButtonFactory {
 
     private class BtnSix : Buttons {
         override fun handleClick() {
-            Calculator.formula += "6"
+            Calculator.formula += getSymbol(SIX)
         }
 
         override fun handleLongClick() {}
@@ -138,7 +184,7 @@ object ButtonFactory {
 
     private class BtnSeven : Buttons {
         override fun handleClick() {
-            Calculator.formula += "7"
+            Calculator.formula += getSymbol(SEVEN)
         }
 
         override fun handleLongClick() {}
@@ -146,7 +192,7 @@ object ButtonFactory {
 
     private class BtnEight : Buttons {
         override fun handleClick() {
-            Calculator.formula += "8"
+            Calculator.formula += getSymbol(EIGHT)
         }
 
         override fun handleLongClick() {}
@@ -154,7 +200,7 @@ object ButtonFactory {
 
     private class BtnNine : Buttons {
         override fun handleClick() {
-            Calculator.formula += "9"
+            Calculator.formula += getSymbol(NINE)
         }
 
         override fun handleLongClick() {}
@@ -162,7 +208,7 @@ object ButtonFactory {
 
     private class BtnDecimal : Buttons {
         override fun handleClick() {
-            Calculator.formula += "."
+            Calculator.formula += getSymbol(DECIMAL)
         }
 
         override fun handleLongClick() {}
@@ -193,7 +239,7 @@ object ButtonFactory {
 
     private class BtnPlus : Buttons {
         override fun handleClick() {
-            Calculator.formula += "+"
+            Calculator.formula += getSymbol(PLUS)
         }
 
         override fun handleLongClick() {}
@@ -201,7 +247,7 @@ object ButtonFactory {
 
     private class BtnMinus : Buttons {
         override fun handleClick() {
-            Calculator.formula += "-"
+            Calculator.formula += getSymbol(MINUS)
         }
 
         override fun handleLongClick() {}
@@ -209,7 +255,7 @@ object ButtonFactory {
 
     private class BtnMultiply : Buttons {
         override fun handleClick() {
-            Calculator.formula += "*"
+            Calculator.formula += getSymbol(MULTIPLY)
         }
 
         override fun handleLongClick() {}
@@ -217,7 +263,7 @@ object ButtonFactory {
 
     private class BtnDivide : Buttons {
         override fun handleClick() {
-            Calculator.formula += "/"
+            Calculator.formula += getSymbol(DIVIDE)
         }
 
         override fun handleLongClick() {}
@@ -225,7 +271,7 @@ object ButtonFactory {
 
     private class BtnMod : Buttons {
         override fun handleClick() {
-            Calculator.formula += "mod"
+            Calculator.formula += getSymbol(MOD)
         }
 
         override fun handleLongClick() {}
@@ -233,7 +279,7 @@ object ButtonFactory {
 
     private class BtnPower : Buttons {
         override fun handleClick() {
-            Calculator.formula += "^"
+            Calculator.formula += getSymbol(POWER)
         }
 
         override fun handleLongClick() {}
@@ -241,7 +287,7 @@ object ButtonFactory {
 
     private class BtnRootSquare : Buttons {
         override fun handleClick() {
-            Calculator.formula += "√"
+            Calculator.formula += getSymbol(ROOT_SQUARE)
         }
 
         override fun handleLongClick() {}
@@ -249,7 +295,7 @@ object ButtonFactory {
 
     private class BtnRootCube : Buttons {
         override fun handleClick() {
-            Calculator.formula += "∛"
+            Calculator.formula += getSymbol(ROOT_CUBE)
         }
 
         override fun handleLongClick() {}
@@ -257,7 +303,7 @@ object ButtonFactory {
 
     private class BtnSin : Buttons {
         override fun handleClick() {
-            Calculator.formula += "sin("
+            Calculator.formula += getSymbol(SIN) + "("
         }
 
         override fun handleLongClick() {}
@@ -265,7 +311,7 @@ object ButtonFactory {
 
     private class BtnCos : Buttons {
         override fun handleClick() {
-            Calculator.formula += "cos("
+            Calculator.formula += getSymbol(COS) + "("
         }
 
         override fun handleLongClick() {}
@@ -273,7 +319,7 @@ object ButtonFactory {
 
     private class BtnTan : Buttons {
         override fun handleClick() {
-            Calculator.formula += "tan("
+            Calculator.formula += getSymbol(TAN) + "("
         }
 
         override fun handleLongClick() {}
@@ -281,7 +327,7 @@ object ButtonFactory {
 
     private class BtnLog : Buttons {
         override fun handleClick() {
-            Calculator.formula += "log10("
+            Calculator.formula += getSymbol(LOG) + "10("
         }
 
         override fun handleLongClick() {}
@@ -289,7 +335,7 @@ object ButtonFactory {
 
     private class BtnPi : Buttons {
         override fun handleClick() {
-            Calculator.formula += "π"
+            Calculator.formula += getSymbol(PI)
         }
 
         override fun handleLongClick() {}
@@ -297,7 +343,7 @@ object ButtonFactory {
 
     private class BtnBracketLeft : Buttons {
         override fun handleClick() {
-            Calculator.formula += "("
+            Calculator.formula += getSymbol(BRACKET_LEFT)
         }
 
         override fun handleLongClick() {}
@@ -305,7 +351,7 @@ object ButtonFactory {
 
     private class BtnBracketRight : Buttons {
         override fun handleClick() {
-            Calculator.formula += ")"
+            Calculator.formula += getSymbol(BRACKET_RIGHT)
         }
 
         override fun handleLongClick() {}
