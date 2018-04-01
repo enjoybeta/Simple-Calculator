@@ -25,7 +25,7 @@ android {
 
     buildTypes {
         debug {
-	        applicationIdSuffix ".debug"
+            applicationIdSuffix ".debug"
         }
         release {
             minifyEnabled true
@@ -84,3 +84,4 @@ dependencies {
 //    println 'signing.properties not found'
 //    android.buildTypes.release.signingConfig = null
 //}
+

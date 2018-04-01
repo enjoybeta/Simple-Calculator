@@ -21,8 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="mod"
-            android:textSize="@dimen/extra_big_text_size" />
+            android:text="mod" />
 
         <Button
             android:id="@+id/btn_12"
