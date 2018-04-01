@@ -37,45 +37,44 @@ class FragmentButtons : Fragment() {
     private lateinit var buttonObj53: Buttons
     private lateinit var buttonObj54: Buttons
 
+    fun init(bc: ButtonConfig) {
+        buttonObj11 = ButtonFactory.getButtonInstance(bc.btn11)
+        buttonObj12 = ButtonFactory.getButtonInstance(bc.btn12)
+        buttonObj13 = ButtonFactory.getButtonInstance(bc.btn13)
+        buttonObj14 = ButtonFactory.getButtonInstance(bc.btn14)
+
+        buttonObj21 = ButtonFactory.getButtonInstance(bc.btn21)
+        buttonObj22 = ButtonFactory.getButtonInstance(bc.btn22)
+        buttonObj23 = ButtonFactory.getButtonInstance(bc.btn23)
+        buttonObj24 = ButtonFactory.getButtonInstance(bc.btn24)
+
+        buttonObj31 = ButtonFactory.getButtonInstance(bc.btn31)
+        buttonObj32 = ButtonFactory.getButtonInstance(bc.btn32)
+        buttonObj33 = ButtonFactory.getButtonInstance(bc.btn33)
+        buttonObj34 = ButtonFactory.getButtonInstance(bc.btn34)
+
+        buttonObj41 = ButtonFactory.getButtonInstance(bc.btn41)
+        buttonObj42 = ButtonFactory.getButtonInstance(bc.btn42)
+        buttonObj43 = ButtonFactory.getButtonInstance(bc.btn43)
+        buttonObj44 = ButtonFactory.getButtonInstance(bc.btn44)
+
+        buttonObj51 = ButtonFactory.getButtonInstance(bc.btn51)
+        buttonObj52 = ButtonFactory.getButtonInstance(bc.btn52)
+        buttonObj53 = ButtonFactory.getButtonInstance(bc.btn53)
+        buttonObj54 = ButtonFactory.getButtonInstance(bc.btn54)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_buttons, container, false)
     }
 
     override fun onStart() {
         super.onStart()
-        initButtonObjects()
-        setListeners()
+        setClickListeners()
+        setLongClickListeners()
     }
 
-    private fun initButtonObjects() {
-        buttonObj11 = ButtonFactory.getButtonInstance(ButtonFactory.ButtonType.MOD)
-        buttonObj12 = ButtonFactory.getButtonInstance(ButtonFactory.ButtonType.POWER)
-        buttonObj13 = ButtonFactory.getButtonInstance(ButtonFactory.ButtonType.ROOT_SQUARE)
-        buttonObj14 = ButtonFactory.getButtonInstance(ButtonFactory.ButtonType.DEL)
-
-        buttonObj21 = ButtonFactory.getButtonInstance(ButtonFactory.ButtonType.SEVEN)
-        buttonObj22 = ButtonFactory.getButtonInstance(ButtonFactory.ButtonType.EIGHT)
-        buttonObj23 = ButtonFactory.getButtonInstance(ButtonFactory.ButtonType.NINE)
-        buttonObj24 = ButtonFactory.getButtonInstance(ButtonFactory.ButtonType.DIVIDE)
-
-        buttonObj31 = ButtonFactory.getButtonInstance(ButtonFactory.ButtonType.FOUR)
-        buttonObj32 = ButtonFactory.getButtonInstance(ButtonFactory.ButtonType.FIVE)
-        buttonObj33 = ButtonFactory.getButtonInstance(ButtonFactory.ButtonType.SIX)
-        buttonObj34 = ButtonFactory.getButtonInstance(ButtonFactory.ButtonType.MULTIPLY)
-
-        buttonObj41 = ButtonFactory.getButtonInstance(ButtonFactory.ButtonType.ONE)
-        buttonObj42 = ButtonFactory.getButtonInstance(ButtonFactory.ButtonType.TWO)
-        buttonObj43 = ButtonFactory.getButtonInstance(ButtonFactory.ButtonType.THREE)
-        buttonObj44 = ButtonFactory.getButtonInstance(ButtonFactory.ButtonType.MINUS)
-
-        buttonObj51 = ButtonFactory.getButtonInstance(ButtonFactory.ButtonType.ZERO)
-        buttonObj52 = ButtonFactory.getButtonInstance(ButtonFactory.ButtonType.DECIMAL)
-        buttonObj53 = ButtonFactory.getButtonInstance(ButtonFactory.ButtonType.EQUAL)
-        buttonObj54 = ButtonFactory.getButtonInstance(ButtonFactory.ButtonType.PLUS)
-    }
-
-    private fun setListeners() {
+    private fun setClickListeners() {
         //row1
         btn_11.setOnClickListener {
             buttonObj11.handleClick()
@@ -160,6 +159,94 @@ class FragmentButtons : Fragment() {
         btn_54.setOnClickListener {
             buttonObj54.handleClick()
             doClickAnimation(it)
+        }
+    }
+
+    private fun setLongClickListeners() {
+        //row1
+        btn_11.setOnLongClickListener {
+            buttonObj11.handleLongClick()
+            true
+        }
+        btn_12.setOnLongClickListener {
+            buttonObj12.handleLongClick()
+            true
+        }
+        btn_13.setOnLongClickListener {
+            buttonObj13.handleLongClick()
+            true
+        }
+        btn_14.setOnLongClickListener {
+            buttonObj14.handleLongClick()
+            true
+        }
+        //row2
+        btn_21.setOnLongClickListener {
+            buttonObj21.handleLongClick()
+            true
+        }
+        btn_22.setOnLongClickListener {
+            buttonObj22.handleLongClick()
+            true
+        }
+        btn_23.setOnLongClickListener {
+            buttonObj23.handleLongClick()
+            true
+        }
+        btn_24.setOnLongClickListener {
+            buttonObj24.handleLongClick()
+            true
+        }
+        //row3
+        btn_31.setOnLongClickListener {
+            buttonObj31.handleLongClick()
+            true
+        }
+        btn_32.setOnLongClickListener {
+            buttonObj32.handleLongClick()
+            true
+        }
+        btn_33.setOnLongClickListener {
+            buttonObj33.handleLongClick()
+            true
+        }
+        btn_34.setOnLongClickListener {
+            buttonObj34.handleLongClick()
+            true
+        }
+        //row 4
+        btn_41.setOnLongClickListener {
+            buttonObj41.handleLongClick()
+            true
+        }
+        btn_42.setOnLongClickListener {
+            buttonObj42.handleLongClick()
+            true
+        }
+        btn_43.setOnLongClickListener {
+            buttonObj43.handleLongClick()
+            true
+        }
+        btn_44.setOnLongClickListener {
+            buttonObj44.handleLongClick()
+            true
+        }
+        //row 5
+        btn_51.setOnLongClickListener {
+            buttonObj51.handleLongClick()
+            true
+        }
+        btn_52.setOnLongClickListener {
+            buttonObj52.handleLongClick()
+            true
+        }
+        btn_53.setOnLongClickListener {
+            buttonObj53.handleLongClick()
+            true
+        }
+        btn_54.setOnLongClickListener {
+            buttonObj54.handleLongClick()
+            true
         }
     }
 

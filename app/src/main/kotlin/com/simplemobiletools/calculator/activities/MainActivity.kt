@@ -6,14 +6,16 @@ import android.os.Bundle
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
-import android.view.View
 import com.simplemobiletools.calculator.*
+import com.simplemobiletools.calculator.fragments.ButtonConfig
 import com.simplemobiletools.calculator.fragments.FragmentButtons
 import com.simplemobiletools.calculator.helpers.*
 import kotlinx.android.synthetic.main.activity_main.*
 import me.grantland.widget.AutofitHelper
 
 var vibrateOnButtonPress = true
+val buttonconfig1 = ButtonConfig()
+val buttonconfig2 = ButtonConfig()
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,8 +26,12 @@ class MainActivity : AppCompatActivity() {
         Calculator.setOnItemClickListener { updateView() }
 
         val adapter = ViewPagerAdapter(supportFragmentManager)
-        adapter.addFragment(FragmentButtons(), "1st")
-        adapter.addFragment(FragmentButtons(), "2nd")
+        val frag1 = FragmentButtons()
+        val frag2 = FragmentButtons()
+        frag1.init(buttonconfig1)
+        frag2.init(buttonconfig2)
+        adapter.addFragment(frag1, "1st")
+        adapter.addFragment(frag2, "2nd")
         viewPager.adapter = adapter
 
         AutofitHelper.create(result)

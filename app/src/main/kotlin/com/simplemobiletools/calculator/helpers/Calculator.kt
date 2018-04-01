@@ -19,7 +19,9 @@ object Calculator {
     private fun findExpressionResult(input: String): Double {
         var tmp = input
         tmp = tmp.replace("√", "sqrt")
+        tmp = tmp.replace("∛", "cbrt")
         tmp = tmp.replace("mod", "%")
+        tmp = tmp.replace("log10", "log")
         return ExpressionBuilder(tmp)
                 .build().evaluate()
     }
