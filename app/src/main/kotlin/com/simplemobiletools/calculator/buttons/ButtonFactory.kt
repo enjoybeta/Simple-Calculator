@@ -78,6 +78,44 @@ object ButtonFactory {
         }
     }
 
+    fun getType(m: String): ButtonFactory.ButtonType {
+        return when (m) {
+            "" -> EMPTY
+            "0" -> ZERO
+            "1" -> ONE
+            "2" -> TWO
+            "3" -> THREE
+            "4" -> FOUR
+            "5" -> FIVE
+            "6" -> SIX
+            "7" -> SEVEN
+            "8" -> EIGHT
+            "9" -> NINE
+
+            "." -> DECIMAL
+            "=" -> EQUAL
+            "Del" -> DEL
+
+            "+" -> PLUS
+            "-" -> MINUS
+            "*" -> MULTIPLY
+            "/" -> DIVIDE
+
+            "mod" -> MOD
+            "^" -> POWER
+            "√" -> ROOT_SQUARE
+            "∛" -> ROOT_CUBE
+            "sin" -> SIN
+            "cos" -> COS
+            "tan" -> TAN
+            "log" -> LOG
+            "π" -> PI
+            "(" -> BRACKET_LEFT
+            ")" -> BRACKET_RIGHT
+            else -> EMPTY
+        }
+    }
+
     /**
      * Called by clients to get a Button based on the ButtonType
      */
@@ -216,7 +254,7 @@ object ButtonFactory {
 
     private class BtnEqual : Buttons {
         override fun handleClick() {
-            Calculator.formula = Calculator.trimDecimal(Calculator.result)
+            Calculator.formula = Calculator.getResultText()
             Calculator.result = ""
         }
 

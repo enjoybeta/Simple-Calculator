@@ -1,6 +1,4 @@
-package com.simplemobiletools.calculator.fragments
-
-import com.simplemobiletools.calculator.buttons.ButtonFactory
+package com.simplemobiletools.calculator.buttons
 
 class ButtonConfig {
     lateinit var btn11: ButtonFactory.ButtonType

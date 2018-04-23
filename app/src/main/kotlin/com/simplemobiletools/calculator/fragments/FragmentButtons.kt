@@ -5,8 +5,10 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.simplemobiletools.calculator.R
 import com.simplemobiletools.calculator.activities.vibrateOnButtonPress
+import com.simplemobiletools.calculator.buttons.ButtonConfig
 import com.simplemobiletools.calculator.buttons.ButtonFactory
 import com.simplemobiletools.calculator.buttons.Buttons
 import kotlinx.android.synthetic.main.fragment_buttons.*
@@ -39,7 +41,18 @@ class FragmentButtons : Fragment() {
     private lateinit var buttonObj53: Buttons
     private lateinit var buttonObj54: Buttons
 
-    fun init(bc: ButtonConfig) {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_buttons, container, false)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        setClickListeners()
+        setLongClickListeners()
+        initButtonText()
+    }
+
+    fun initButtonConfig(bc: ButtonConfig) {
         buttonconfig = bc
         buttonObj11 = ButtonFactory.getButtonInstance(bc.btn11)
         buttonObj12 = ButtonFactory.getButtonInstance(bc.btn12)
@@ -61,17 +74,6 @@ class FragmentButtons : Fragment() {
         buttonObj52 = ButtonFactory.getButtonInstance(bc.btn52)
         buttonObj53 = ButtonFactory.getButtonInstance(bc.btn53)
         buttonObj54 = ButtonFactory.getButtonInstance(bc.btn54)
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_buttons, container, false)
-    }
-
-    override fun onStart() {
-        super.onStart()
-        setClickListeners()
-        setLongClickListeners()
-        initButtonText()
     }
 
     private fun initButtonText(){

@@ -1,5 +1,6 @@
 package com.simplemobiletools.calculator.activities
 
+import android.app.Activity
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.os.Bundle
@@ -7,7 +8,6 @@ import android.support.v4.app.FragmentPagerAdapter
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import com.simplemobiletools.calculator.*
-import com.simplemobiletools.calculator.fragments.ButtonConfig
 import com.simplemobiletools.calculator.fragments.FragmentButtons
 import com.simplemobiletools.calculator.helpers.*
 import kotlinx.android.synthetic.main.activity_main.*
@@ -17,6 +17,7 @@ import android.content.ClipboardManager
 import android.content.Intent
 import android.view.MenuItem
 import android.widget.Toast
+import com.simplemobiletools.calculator.buttons.ButtonConfig
 
 var vibrateOnButtonPress = true
 val buttonconfig1 = ButtonConfig()
@@ -37,8 +38,8 @@ class MainActivity : AppCompatActivity() {
         val frag2 = FragmentButtons()
         buttonconfig1.initConfig1()
         buttonconfig2.initConfig2()
-        frag1.init(buttonconfig1)
-        frag2.init(buttonconfig2)
+        frag1.initButtonConfig(buttonconfig1)
+        frag2.initButtonConfig(buttonconfig2)
         adapter.addFragment(frag1, "1st")
         adapter.addFragment(frag2, "2nd")
         viewPager.adapter = adapter
@@ -48,8 +49,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     internal inner class ViewPagerAdapter(manager: FragmentManager) : FragmentPagerAdapter(manager) {
-        private val mFragmentList = ArrayList<Fragment>()
-        private val mFragmentTitleList = ArrayList<String>()
+        private val mFragmentList: ArrayList<Fragment> = ArrayList<Fragment>()
+        private val mFragmentTitleList: ArrayList<String> = ArrayList<String>()
 
         override fun getItem(position: Int): Fragment {
             return mFragmentList[position]
@@ -99,10 +100,22 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.config -> startActivity(Intent(applicationContext, ConfigActivity::class.java))
+            R.id.config -> startActivityForResult(Intent(applicationContext, ConfigActivity::class.java), CONFIG_CHANGE_REQUEST_CODE)
             else -> return super.onOptionsItemSelected(item)
         }
         return true
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == CONFIG_CHANGE_REQUEST_CODE) {// Make sure the request was successful
+            if (resultCode == Activity.RESULT_OK) {
+                val buttonConfig_json = data.getStringExtra("buttonConfig_json")
+                Toast.makeText(this, "[$buttonConfig_json]", Toast.LENGTH_SHORT).show()
+                //val fragment = fragmentManager.findFragmentByTag("1st") as FragmentButtons
+                //fragment.initButtonConfig(...)
+            }
+        }
     }
 
 }

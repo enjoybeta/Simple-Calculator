@@ -8,7 +8,7 @@ object Calculator {
 
     var result = ""
 
-    var formula by Delegates.observable("") { prop, old, new ->
+    var formula by Delegates.observable("") { _, _, _ ->
         mListener.invoke(0)
     }
 
@@ -43,7 +43,7 @@ object Calculator {
         return result
     }
 
-    fun trimDecimal(input: String): String {
+    private fun trimDecimal(input: String): String {
         if (input == "" || input.length < 3) {
             return input
         }
