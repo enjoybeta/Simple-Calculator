@@ -1,5 +1,6 @@
 package com.simplemobiletools.calculator.activities
 
+import android.app.Activity
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.ArrayAdapter
@@ -12,14 +13,13 @@ import com.simplemobiletools.calculator.buttons.ButtonFactory.getSymbol
 import com.simplemobiletools.calculator.buttons.ButtonFactory.getType
 
 class ButtonListActivity : AppCompatActivity() {
-    private lateinit var buttonconfig: ButtonConfig
-    private var button_id: Int = 0
+    private var buttonId: Int = 0
     private val list: ArrayList<String> = arrayListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_button_list)
-        button_id = intent.extras.getInt("button_id")
+        buttonId = intent.extras.getInt("buttonId")
         setupAdapter()
     }
 
@@ -34,11 +34,15 @@ class ButtonListActivity : AppCompatActivity() {
 
     private fun returnIntent(pos: Int) {
         val intent = Intent()
-        intent.putExtra("button_id", button_id)
-        intent.putExtra("button_type", list[pos])
+        intent.putExtra("buttonId", buttonId)
+        intent.putExtra("buttonType", list[pos])
         setResult(RESULT_OK, intent)
         finish()
     }
 
-
+    override fun onBackPressed() {
+        val intent = Intent()
+        setResult(RESULT_CANCELED, intent)
+        super.onBackPressed()
+    }
 }

@@ -108,7 +108,7 @@ class ConfigActivity : AppCompatActivity() {
 
     private fun startButtonListActivity(id: Int) {
         val intent = Intent(this, ButtonListActivity::class.java)
-        intent.putExtra("button_id", id)
+        intent.putExtra("buttonId", id)
         startActivityForResult(intent, CHOOSE_BUTTON_REQUEST_CODE)
     }
 
@@ -116,9 +116,10 @@ class ConfigActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == CHOOSE_BUTTON_REQUEST_CODE) {// Make sure the request was successful
             if (resultCode == Activity.RESULT_OK) {
-                val button_id = data.getStringExtra("button_id")
-                val button_text = data.getStringExtra("button_type")
-                Toast.makeText(this, button_text, Toast.LENGTH_SHORT).show()
+                val buttonId = data.getIntExtra("buttonId", -1)
+                val buttonText = data.getStringExtra("buttonType")
+                Toast.makeText(this, "[$buttonId][$buttonText]", Toast.LENGTH_SHORT).show()
+                assignBtnText(buttonId,buttonText)
             }
         }
     }
@@ -128,6 +129,31 @@ class ConfigActivity : AppCompatActivity() {
         intent.putExtra("buttonConfig_json", "{[],[],[],[]}")
         setResult(RESULT_OK, intent)
         super.onBackPressed()
+    }
+
+    private fun assignBtnText(btnNum: Int, text: String) {
+        when (btnNum) {
+            11 -> btn_11.text = text
+            12 -> btn_12.text = text
+            13 -> btn_13.text = text
+            14 -> btn_14.text = text
+            21 -> btn_21.text = text
+            22 -> btn_22.text = text
+            23 -> btn_23.text = text
+            24 -> btn_24.text = text
+            31 -> btn_31.text = text
+            32 -> btn_32.text = text
+            33 -> btn_33.text = text
+            34 -> btn_34.text = text
+            41 -> btn_41.text = text
+            42 -> btn_42.text = text
+            43 -> btn_43.text = text
+            44 -> btn_44.text = text
+            51 -> btn_51.text = text
+            52 -> btn_52.text = text
+            53 -> btn_53.text = text
+            54 -> btn_54.text = text
+        }
     }
 
 }
