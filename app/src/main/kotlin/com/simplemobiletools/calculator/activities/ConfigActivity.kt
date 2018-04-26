@@ -12,6 +12,7 @@ import com.simplemobiletools.calculator.R
 import com.simplemobiletools.calculator.buttons.ButtonFactory
 import kotlinx.android.synthetic.main.activity_config.*
 import android.content.Intent
+import com.google.gson.Gson
 import com.simplemobiletools.calculator.buttons.ButtonConfig
 import com.simplemobiletools.calculator.helpers.CHOOSE_BUTTON_REQUEST_CODE
 
@@ -28,7 +29,6 @@ class ConfigActivity : AppCompatActivity() {
 
     private fun setupSpinner() {
         val spinnerStr = arrayOf("First page", "Second page")
-        val x = spinner
         spinner.adapter = ArrayAdapter(this, simple_spinner_dropdown_item, spinnerStr)
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -119,40 +119,102 @@ class ConfigActivity : AppCompatActivity() {
                 val buttonId = data.getIntExtra("buttonId", -1)
                 val buttonText = data.getStringExtra("buttonType")
                 Toast.makeText(this, "[$buttonId][$buttonText]", Toast.LENGTH_SHORT).show()
-                assignBtnText(buttonId,buttonText)
+                assignNewBtn(buttonId, buttonText)
             }
         }
     }
 
     override fun onBackPressed() {
         val intent = Intent()
-        intent.putExtra("buttonConfig_json", "{[],[],[],[]}")
+        val jsonStr: String = Gson().toJson(chosenConfig)
+        intent.putExtra("buttonConfig_json", jsonStr)
         setResult(RESULT_OK, intent)
         super.onBackPressed()
     }
 
-    private fun assignBtnText(btnNum: Int, text: String) {
+    private fun assignNewBtn(btnNum: Int, text: String) {
+        val btnType = ButtonFactory.getType(text)
         when (btnNum) {
-            11 -> btn_11.text = text
-            12 -> btn_12.text = text
-            13 -> btn_13.text = text
-            14 -> btn_14.text = text
-            21 -> btn_21.text = text
-            22 -> btn_22.text = text
-            23 -> btn_23.text = text
-            24 -> btn_24.text = text
-            31 -> btn_31.text = text
-            32 -> btn_32.text = text
-            33 -> btn_33.text = text
-            34 -> btn_34.text = text
-            41 -> btn_41.text = text
-            42 -> btn_42.text = text
-            43 -> btn_43.text = text
-            44 -> btn_44.text = text
-            51 -> btn_51.text = text
-            52 -> btn_52.text = text
-            53 -> btn_53.text = text
-            54 -> btn_54.text = text
+            11 -> {
+                btn_11.text = text
+                chosenConfig.btn11 = btnType
+            }
+            12 -> {
+                btn_12.text = text
+                chosenConfig.btn12 = btnType
+            }
+            13 -> {
+                btn_13.text = text
+                chosenConfig.btn11 = btnType
+            }
+            14 -> {
+                btn_14.text = text
+                chosenConfig.btn11 = btnType
+            }
+            21 -> {
+                btn_21.text = text
+                chosenConfig.btn11 = btnType
+            }
+            22 -> {
+                btn_22.text = text
+                chosenConfig.btn11 = btnType
+            }
+            23 -> {
+                btn_23.text = text
+                chosenConfig.btn11 = btnType
+            }
+            24 -> {
+                btn_24.text = text
+                chosenConfig.btn11 = btnType
+            }
+            31 -> {
+                btn_31.text = text
+                chosenConfig.btn11 = btnType
+            }
+            32 -> {
+                btn_32.text = text
+                chosenConfig.btn11 = btnType
+            }
+            33 -> {
+                btn_33.text = text
+                chosenConfig.btn11 = btnType
+            }
+            34 -> {
+                btn_34.text = text
+                chosenConfig.btn11 = btnType
+            }
+            41 -> {
+                btn_41.text = text
+                chosenConfig.btn11 = btnType
+            }
+            42 -> {
+                btn_42.text = text
+                chosenConfig.btn11 = btnType
+            }
+            43 -> {
+                btn_43.text = text
+                chosenConfig.btn11 = btnType
+            }
+            44 -> {
+                btn_44.text = text
+                chosenConfig.btn11 = btnType
+            }
+            51 -> {
+                btn_51.text = text
+                chosenConfig.btn11 = btnType
+            }
+            52 -> {
+                btn_52.text = text
+                chosenConfig.btn11 = btnType
+            }
+            53 -> {
+                btn_53.text = text
+                chosenConfig.btn11 = btnType
+            }
+            54 -> {
+                btn_54.text = text
+                chosenConfig.btn11 = btnType
+            }
         }
     }
 

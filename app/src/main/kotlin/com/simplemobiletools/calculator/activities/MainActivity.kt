@@ -17,6 +17,7 @@ import android.content.ClipboardManager
 import android.content.Intent
 import android.view.MenuItem
 import android.widget.Toast
+import com.google.gson.Gson
 import com.simplemobiletools.calculator.buttons.ButtonConfig
 
 var vibrateOnButtonPress = true
@@ -110,10 +111,9 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == CONFIG_CHANGE_REQUEST_CODE) {// Make sure the request was successful
             if (resultCode == Activity.RESULT_OK) {
-                val buttonConfig_json = data.getStringExtra("buttonConfig_json")
-                Toast.makeText(this, "[$buttonConfig_json]", Toast.LENGTH_SHORT).show()
-                //val fragment = fragmentManager.findFragmentByTag("1st") as FragmentButtons
-                //fragment.initButtonConfig(...)
+                val jsonStr = data.getStringExtra("buttonConfig_json")
+                val configuration = Gson().fromJson(jsonStr, ButtonConfig::class.java)
+                Toast.makeText(this, "[$jsonStr]", Toast.LENGTH_LONG).show()
             }
         }
     }
