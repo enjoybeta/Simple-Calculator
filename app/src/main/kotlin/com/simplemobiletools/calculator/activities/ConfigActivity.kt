@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import com.simplemobiletools.calculator.R
 import com.simplemobiletools.calculator.buttons.ButtonFactory
 import kotlinx.android.synthetic.main.activity_config.*
@@ -118,7 +117,6 @@ class ConfigActivity : AppCompatActivity() {
             if (resultCode == Activity.RESULT_OK) {
                 val buttonId = data.getIntExtra("buttonId", -1)
                 val buttonText = data.getStringExtra("buttonType")
-                Toast.makeText(this, "[$buttonId][$buttonText]", Toast.LENGTH_SHORT).show()
                 assignNewBtn(buttonId, buttonText)
             }
         }
@@ -126,7 +124,10 @@ class ConfigActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         val intent = Intent()
-        val jsonStr: String = Gson().toJson(chosenConfig)
+        val configList = ArrayList<ButtonConfig>()
+        configList.add(buttonconfig1)
+        configList.add(buttonconfig2)
+        val jsonStr: String = Gson().toJson(configList)
         intent.putExtra("buttonConfig_json", jsonStr)
         setResult(RESULT_OK, intent)
         super.onBackPressed()
@@ -145,75 +146,75 @@ class ConfigActivity : AppCompatActivity() {
             }
             13 -> {
                 btn_13.text = text
-                chosenConfig.btn11 = btnType
+                chosenConfig.btn13 = btnType
             }
             14 -> {
                 btn_14.text = text
-                chosenConfig.btn11 = btnType
+                chosenConfig.btn14 = btnType
             }
             21 -> {
                 btn_21.text = text
-                chosenConfig.btn11 = btnType
+                chosenConfig.btn21 = btnType
             }
             22 -> {
                 btn_22.text = text
-                chosenConfig.btn11 = btnType
+                chosenConfig.btn22 = btnType
             }
             23 -> {
                 btn_23.text = text
-                chosenConfig.btn11 = btnType
+                chosenConfig.btn23 = btnType
             }
             24 -> {
                 btn_24.text = text
-                chosenConfig.btn11 = btnType
+                chosenConfig.btn24 = btnType
             }
             31 -> {
                 btn_31.text = text
-                chosenConfig.btn11 = btnType
+                chosenConfig.btn31 = btnType
             }
             32 -> {
                 btn_32.text = text
-                chosenConfig.btn11 = btnType
+                chosenConfig.btn32 = btnType
             }
             33 -> {
                 btn_33.text = text
-                chosenConfig.btn11 = btnType
+                chosenConfig.btn33 = btnType
             }
             34 -> {
                 btn_34.text = text
-                chosenConfig.btn11 = btnType
+                chosenConfig.btn34 = btnType
             }
             41 -> {
                 btn_41.text = text
-                chosenConfig.btn11 = btnType
+                chosenConfig.btn41 = btnType
             }
             42 -> {
                 btn_42.text = text
-                chosenConfig.btn11 = btnType
+                chosenConfig.btn42 = btnType
             }
             43 -> {
                 btn_43.text = text
-                chosenConfig.btn11 = btnType
+                chosenConfig.btn43 = btnType
             }
             44 -> {
                 btn_44.text = text
-                chosenConfig.btn11 = btnType
+                chosenConfig.btn44 = btnType
             }
             51 -> {
                 btn_51.text = text
-                chosenConfig.btn11 = btnType
+                chosenConfig.btn51 = btnType
             }
             52 -> {
                 btn_52.text = text
-                chosenConfig.btn11 = btnType
+                chosenConfig.btn52 = btnType
             }
             53 -> {
                 btn_53.text = text
-                chosenConfig.btn11 = btnType
+                chosenConfig.btn53 = btnType
             }
             54 -> {
                 btn_54.text = text
-                chosenConfig.btn11 = btnType
+                chosenConfig.btn54 = btnType
             }
         }
     }

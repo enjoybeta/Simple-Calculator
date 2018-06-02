@@ -5,12 +5,10 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.simplemobiletools.calculator.R
 import com.simplemobiletools.calculator.activities.vibrateOnButtonPress
 import com.simplemobiletools.calculator.buttons.ButtonConfig
 import com.simplemobiletools.calculator.buttons.ButtonFactory
-import com.simplemobiletools.calculator.buttons.Buttons
 import kotlinx.android.synthetic.main.fragment_buttons.*
 
 class FragmentButtons : Fragment() {
@@ -27,11 +25,11 @@ class FragmentButtons : Fragment() {
         initButtonText()
     }
 
-    fun initButtonConfig(bc: ButtonConfig) {
+    fun loadButtonConfig(bc: ButtonConfig) {
         buttonconfig = bc
     }
 
-    private fun initButtonText(){
+    fun initButtonText(){
         btn_11.text = ButtonFactory.getSymbol(buttonconfig.btn11)
         btn_12.text = ButtonFactory.getSymbol(buttonconfig.btn12)
         btn_13.text = ButtonFactory.getSymbol(buttonconfig.btn13)

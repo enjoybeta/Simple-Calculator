@@ -37,10 +37,10 @@ class MainActivity : AppCompatActivity() {
         val adapter = ViewPagerAdapter(supportFragmentManager)
         val frag1 = FragmentButtons()
         val frag2 = FragmentButtons()
-        buttonconfig1.initConfig1()
-        buttonconfig2.initConfig2()
-        frag1.initButtonConfig(buttonconfig1)
-        frag2.initButtonConfig(buttonconfig2)
+        buttonconfig1.initConfig1()//TODO: change to read from file 1 in future
+        buttonconfig2.initConfig2()//TODO: change to read from file 2 in future
+        frag1.loadButtonConfig(buttonconfig1)
+        frag2.loadButtonConfig(buttonconfig2)
         adapter.addFragment(frag1, "1st")
         adapter.addFragment(frag2, "2nd")
         viewPager.adapter = adapter
@@ -93,7 +93,6 @@ class MainActivity : AppCompatActivity() {
         result.text = Calculator.getResultText()
     }
 
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
         return true
@@ -112,8 +111,12 @@ class MainActivity : AppCompatActivity() {
         if (requestCode == CONFIG_CHANGE_REQUEST_CODE) {// Make sure the request was successful
             if (resultCode == Activity.RESULT_OK) {
                 val jsonStr = data.getStringExtra("buttonConfig_json")
-                val configuration = Gson().fromJson(jsonStr, ButtonConfig::class.java)
-                Toast.makeText(this, "[$jsonStr]", Toast.LENGTH_LONG).show()
+                val configList = Gson().fromJson(jsonStr, Array<ButtonConfig>::class.java)
+                for (i in 0 until supportFragmentManager.fragments.size) {
+                    val frag = supportFragmentManager.fragments[i] as FragmentButtons
+                    frag.loadButtonConfig(configList[i])
+                    frag.initButtonText()
+                }
             }
         }
     }
