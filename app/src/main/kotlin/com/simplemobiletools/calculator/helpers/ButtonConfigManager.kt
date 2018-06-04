@@ -22,10 +22,15 @@ object ButtonConfigManager {
     }
 
     fun initConfigFromFile(filesDir: File) {
-        val jsonStr = FileManager(filesDir, "config.dat").readFile()
-        val configList = Gson().fromJson(jsonStr, Array<ButtonConfig>::class.java)
-        for (i in 0 until configList.size) {
-            addConfig(configList[i])
+        try {
+            val jsonStr = FileManager(filesDir, "config.dat").readFile()
+            val configList = Gson().fromJson(jsonStr, Array<ButtonConfig>::class.java)
+            for (i in 0 until configList.size) {
+                addConfig(configList[i])
+            }
+        } catch (e: Exception) {//in case no file being found
+            addConfig(initConfig1())
+            addConfig(initConfig2())
         }
     }
 
@@ -53,76 +58,79 @@ object ButtonConfigManager {
         saveConfigToFile()
     }
 
-    fun initConfig1(i: Int) {
-        data[i].btn11 = ButtonFactory.ButtonType.MOD
-        data[i].btn12 = ButtonFactory.ButtonType.POWER
-        data[i].btn13 = ButtonFactory.ButtonType.ROOT_SQUARE
-        data[i].btn14 = ButtonFactory.ButtonType.DEL
-        data[i].btn21 = ButtonFactory.ButtonType.SEVEN
-        data[i].btn22 = ButtonFactory.ButtonType.EIGHT
-        data[i].btn23 = ButtonFactory.ButtonType.NINE
-        data[i].btn24 = ButtonFactory.ButtonType.DIVIDE
-        data[i].btn31 = ButtonFactory.ButtonType.FOUR
-        data[i].btn32 = ButtonFactory.ButtonType.FIVE
-        data[i].btn33 = ButtonFactory.ButtonType.SIX
-        data[i].btn34 = ButtonFactory.ButtonType.MULTIPLY
-        data[i].btn41 = ButtonFactory.ButtonType.ONE
-        data[i].btn42 = ButtonFactory.ButtonType.TWO
-        data[i].btn43 = ButtonFactory.ButtonType.THREE
-        data[i].btn44 = ButtonFactory.ButtonType.MINUS
-        data[i].btn51 = ButtonFactory.ButtonType.ZERO
-        data[i].btn52 = ButtonFactory.ButtonType.DECIMAL
-        data[i].btn53 = ButtonFactory.ButtonType.EQUAL
-        data[i].btn54 = ButtonFactory.ButtonType.PLUS
-        saveConfigToFile()
+    fun initConfig1(): ButtonConfig {
+        val bc = ButtonConfig()
+        bc.btn11 = ButtonFactory.ButtonType.MOD
+        bc.btn12 = ButtonFactory.ButtonType.POWER
+        bc.btn13 = ButtonFactory.ButtonType.ROOT_SQUARE
+        bc.btn14 = ButtonFactory.ButtonType.DEL
+        bc.btn21 = ButtonFactory.ButtonType.SEVEN
+        bc.btn22 = ButtonFactory.ButtonType.EIGHT
+        bc.btn23 = ButtonFactory.ButtonType.NINE
+        bc.btn24 = ButtonFactory.ButtonType.DIVIDE
+        bc.btn31 = ButtonFactory.ButtonType.FOUR
+        bc.btn32 = ButtonFactory.ButtonType.FIVE
+        bc.btn33 = ButtonFactory.ButtonType.SIX
+        bc.btn34 = ButtonFactory.ButtonType.MULTIPLY
+        bc.btn41 = ButtonFactory.ButtonType.ONE
+        bc.btn42 = ButtonFactory.ButtonType.TWO
+        bc.btn43 = ButtonFactory.ButtonType.THREE
+        bc.btn44 = ButtonFactory.ButtonType.MINUS
+        bc.btn51 = ButtonFactory.ButtonType.ZERO
+        bc.btn52 = ButtonFactory.ButtonType.DECIMAL
+        bc.btn53 = ButtonFactory.ButtonType.EQUAL
+        bc.btn54 = ButtonFactory.ButtonType.PLUS
+        return bc
     }
 
-    fun initConfig2(i: Int) {
-        data[i].btn11 = ButtonFactory.ButtonType.SIN
-        data[i].btn12 = ButtonFactory.ButtonType.COS
-        data[i].btn13 = ButtonFactory.ButtonType.TAN
-        data[i].btn14 = ButtonFactory.ButtonType.ROOT_CUBE
-        data[i].btn21 = ButtonFactory.ButtonType.LOG
-        data[i].btn22 = ButtonFactory.ButtonType.PI
-        data[i].btn23 = ButtonFactory.ButtonType.BRACKET_LEFT
-        data[i].btn24 = ButtonFactory.ButtonType.BRACKET_RIGHT
-        data[i].btn31 = ButtonFactory.ButtonType.EMPTY
-        data[i].btn32 = ButtonFactory.ButtonType.EMPTY
-        data[i].btn33 = ButtonFactory.ButtonType.EMPTY
-        data[i].btn34 = ButtonFactory.ButtonType.EMPTY
-        data[i].btn41 = ButtonFactory.ButtonType.EMPTY
-        data[i].btn42 = ButtonFactory.ButtonType.EMPTY
-        data[i].btn43 = ButtonFactory.ButtonType.EMPTY
-        data[i].btn44 = ButtonFactory.ButtonType.EMPTY
-        data[i].btn51 = ButtonFactory.ButtonType.EMPTY
-        data[i].btn52 = ButtonFactory.ButtonType.EMPTY
-        data[i].btn53 = ButtonFactory.ButtonType.EMPTY
-        data[i].btn54 = ButtonFactory.ButtonType.EMPTY
-        saveConfigToFile()
+    fun initConfig2():ButtonConfig {
+        val bc = ButtonConfig()
+        bc.btn11 = ButtonFactory.ButtonType.SIN
+        bc.btn12 = ButtonFactory.ButtonType.COS
+        bc.btn13 = ButtonFactory.ButtonType.TAN
+        bc.btn14 = ButtonFactory.ButtonType.ROOT_CUBE
+        bc.btn21 = ButtonFactory.ButtonType.LOGTEN
+        bc.btn22 = ButtonFactory.ButtonType.PI
+        bc.btn23 = ButtonFactory.ButtonType.BRACKET_LEFT
+        bc.btn24 = ButtonFactory.ButtonType.BRACKET_RIGHT
+        bc.btn31 = ButtonFactory.ButtonType.EMPTY
+        bc.btn32 = ButtonFactory.ButtonType.EMPTY
+        bc.btn33 = ButtonFactory.ButtonType.EMPTY
+        bc.btn34 = ButtonFactory.ButtonType.EMPTY
+        bc.btn41 = ButtonFactory.ButtonType.EMPTY
+        bc.btn42 = ButtonFactory.ButtonType.EMPTY
+        bc.btn43 = ButtonFactory.ButtonType.EMPTY
+        bc.btn44 = ButtonFactory.ButtonType.EMPTY
+        bc.btn51 = ButtonFactory.ButtonType.EMPTY
+        bc.btn52 = ButtonFactory.ButtonType.EMPTY
+        bc.btn53 = ButtonFactory.ButtonType.EMPTY
+        bc.btn54 = ButtonFactory.ButtonType.EMPTY
+        return bc
     }
 
-    fun initConfigEmpty(i: Int) {
-        data[i].btn11 = ButtonFactory.ButtonType.EMPTY
-        data[i].btn12 = ButtonFactory.ButtonType.EMPTY
-        data[i].btn13 = ButtonFactory.ButtonType.EMPTY
-        data[i].btn14 = ButtonFactory.ButtonType.EMPTY
-        data[i].btn21 = ButtonFactory.ButtonType.EMPTY
-        data[i].btn22 = ButtonFactory.ButtonType.EMPTY
-        data[i].btn23 = ButtonFactory.ButtonType.EMPTY
-        data[i].btn24 = ButtonFactory.ButtonType.EMPTY
-        data[i].btn31 = ButtonFactory.ButtonType.EMPTY
-        data[i].btn32 = ButtonFactory.ButtonType.EMPTY
-        data[i].btn33 = ButtonFactory.ButtonType.EMPTY
-        data[i].btn34 = ButtonFactory.ButtonType.EMPTY
-        data[i].btn41 = ButtonFactory.ButtonType.EMPTY
-        data[i].btn42 = ButtonFactory.ButtonType.EMPTY
-        data[i].btn43 = ButtonFactory.ButtonType.EMPTY
-        data[i].btn44 = ButtonFactory.ButtonType.EMPTY
-        data[i].btn51 = ButtonFactory.ButtonType.EMPTY
-        data[i].btn52 = ButtonFactory.ButtonType.EMPTY
-        data[i].btn53 = ButtonFactory.ButtonType.EMPTY
-        data[i].btn54 = ButtonFactory.ButtonType.EMPTY
-        saveConfigToFile()
+    fun initConfigEmpty() : ButtonConfig {
+        val bc = ButtonConfig()
+        bc.btn11 = ButtonFactory.ButtonType.EMPTY
+        bc.btn12 = ButtonFactory.ButtonType.EMPTY
+        bc.btn13 = ButtonFactory.ButtonType.EMPTY
+        bc.btn14 = ButtonFactory.ButtonType.EMPTY
+        bc.btn21 = ButtonFactory.ButtonType.EMPTY
+        bc.btn22 = ButtonFactory.ButtonType.EMPTY
+        bc.btn23 = ButtonFactory.ButtonType.EMPTY
+        bc.btn24 = ButtonFactory.ButtonType.EMPTY
+        bc.btn31 = ButtonFactory.ButtonType.EMPTY
+        bc.btn32 = ButtonFactory.ButtonType.EMPTY
+        bc.btn33 = ButtonFactory.ButtonType.EMPTY
+        bc.btn34 = ButtonFactory.ButtonType.EMPTY
+        bc.btn41 = ButtonFactory.ButtonType.EMPTY
+        bc.btn42 = ButtonFactory.ButtonType.EMPTY
+        bc.btn43 = ButtonFactory.ButtonType.EMPTY
+        bc.btn44 = ButtonFactory.ButtonType.EMPTY
+        bc.btn51 = ButtonFactory.ButtonType.EMPTY
+        bc.btn52 = ButtonFactory.ButtonType.EMPTY
+        bc.btn53 = ButtonFactory.ButtonType.EMPTY
+        bc.btn54 = ButtonFactory.ButtonType.EMPTY
+        return bc
     }
 
     private fun addConfig(bc: ButtonConfig) {

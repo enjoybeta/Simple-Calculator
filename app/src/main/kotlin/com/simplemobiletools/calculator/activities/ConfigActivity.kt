@@ -11,6 +11,7 @@ import com.simplemobiletools.calculator.R
 import com.simplemobiletools.calculator.buttons.ButtonFactory
 import kotlinx.android.synthetic.main.activity_config.*
 import android.content.Intent
+import com.simplemobiletools.calculator.buttons.ButtonConfig
 import com.simplemobiletools.calculator.helpers.ButtonConfigManager
 import com.simplemobiletools.calculator.helpers.CHOOSE_BUTTON_REQUEST_CODE
 
@@ -65,10 +66,10 @@ class ConfigActivity : AppCompatActivity() {
     }
 
     private fun resetConfig() {
-        when (chosenConfigIndex) {
-            0 -> ButtonConfigManager.initConfig1(0)
-            1 -> ButtonConfigManager.initConfig2(1)
-            else -> ButtonConfigManager.initConfigEmpty(chosenConfigIndex)
+        val bc: ButtonConfig = when (chosenConfigIndex) {
+            0 -> ButtonConfigManager.initConfig1()
+            1 -> ButtonConfigManager.initConfig2()
+            else -> ButtonConfigManager.initConfigEmpty()
         }
     }
 
