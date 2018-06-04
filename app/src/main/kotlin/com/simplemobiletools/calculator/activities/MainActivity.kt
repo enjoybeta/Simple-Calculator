@@ -17,32 +17,30 @@ import android.content.ClipboardManager
 import android.content.Intent
 import android.view.MenuItem
 import android.widget.Toast
-import com.google.gson.Gson
-import com.simplemobiletools.calculator.buttons.ButtonConfig
 
 var vibrateOnButtonPress = true
-val buttonconfig1 = ButtonConfig()
-val buttonconfig2 = ButtonConfig()
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        ButtonConfigManager.setFileDir(this.filesDir)
 
         setupCopy2Clipboard()
         Calculator.setOnItemClickListener { updateView() }
 
         //setup fragments
         val adapter = ViewPagerAdapter(supportFragmentManager)
-        val frag1 = FragmentButtons()
-        val frag2 = FragmentButtons()
-        buttonconfig1.initConfig1()//TODO: change to read from file 1 in future
-        buttonconfig2.initConfig2()//TODO: change to read from file 2 in future
-        frag1.loadButtonConfig(buttonconfig1)
-        frag2.loadButtonConfig(buttonconfig2)
-        adapter.addFragment(frag1, "1st")
-        adapter.addFragment(frag2, "2nd")
+        ButtonConfigManager.initConfigFromFile(this.filesDir)
+        for (i in 0 until ButtonConfigManager.getConfigSize()) {
+            val frag = FragmentButtons()
+            val args = Bundle()
+            args.putInt("index", i)
+            frag.arguments = args
+            frag.updateButtonConfigIndex(i)
+            adapter.addFragment(frag,"$i")
+        }
         viewPager.adapter = adapter
 
         AutofitHelper.create(result)
@@ -110,11 +108,9 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == CONFIG_CHANGE_REQUEST_CODE) {// Make sure the request was successful
             if (resultCode == Activity.RESULT_OK) {
-                val jsonStr = data.getStringExtra("buttonConfig_json")
-                val configList = Gson().fromJson(jsonStr, Array<ButtonConfig>::class.java)
                 for (i in 0 until supportFragmentManager.fragments.size) {
                     val frag = supportFragmentManager.fragments[i] as FragmentButtons
-                    frag.loadButtonConfig(configList[i])
+                    frag.updateButtonConfigIndex(i)
                     frag.initButtonText()
                 }
             }

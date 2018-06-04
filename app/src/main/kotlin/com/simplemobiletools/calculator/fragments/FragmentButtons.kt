@@ -7,14 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import com.simplemobiletools.calculator.R
 import com.simplemobiletools.calculator.activities.vibrateOnButtonPress
-import com.simplemobiletools.calculator.buttons.ButtonConfig
 import com.simplemobiletools.calculator.buttons.ButtonFactory
+import com.simplemobiletools.calculator.helpers.ButtonConfigManager
 import kotlinx.android.synthetic.main.fragment_buttons.*
 
 class FragmentButtons : Fragment() {
-    private lateinit var buttonconfig: ButtonConfig
+    private var fragIndex: Int = -1
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        fragIndex = arguments!!.getInt("index")
         return inflater.inflate(R.layout.fragment_buttons, container, false)
     }
 
@@ -25,11 +26,12 @@ class FragmentButtons : Fragment() {
         initButtonText()
     }
 
-    fun loadButtonConfig(bc: ButtonConfig) {
-        buttonconfig = bc
+    fun updateButtonConfigIndex(index: Int) {
+        fragIndex = index
     }
 
-    fun initButtonText(){
+    fun initButtonText() {
+        val buttonconfig = ButtonConfigManager.getConfig(fragIndex)
         btn_11.text = ButtonFactory.getSymbol(buttonconfig.btn11)
         btn_12.text = ButtonFactory.getSymbol(buttonconfig.btn12)
         btn_13.text = ButtonFactory.getSymbol(buttonconfig.btn13)
@@ -57,6 +59,7 @@ class FragmentButtons : Fragment() {
     }
 
     private fun setClickListeners() {
+        val buttonconfig = ButtonConfigManager.getConfig(fragIndex)
         //row1
         btn_11.setOnClickListener {
             ButtonFactory.getButtonInstance(buttonconfig.btn11).handleClick()
@@ -144,6 +147,7 @@ class FragmentButtons : Fragment() {
     }
 
     private fun setLongClickListeners() {
+        val buttonconfig = ButtonConfigManager.getConfig(fragIndex)
         //row1
         btn_11.setOnLongClickListener {
             ButtonFactory.getButtonInstance(buttonconfig.btn11).handleLongClick()

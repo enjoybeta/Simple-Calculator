@@ -11,17 +11,16 @@ import com.simplemobiletools.calculator.R
 import com.simplemobiletools.calculator.buttons.ButtonFactory
 import kotlinx.android.synthetic.main.activity_config.*
 import android.content.Intent
-import com.google.gson.Gson
-import com.simplemobiletools.calculator.buttons.ButtonConfig
+import com.simplemobiletools.calculator.helpers.ButtonConfigManager
 import com.simplemobiletools.calculator.helpers.CHOOSE_BUTTON_REQUEST_CODE
 
 class ConfigActivity : AppCompatActivity() {
-    private var chosenConfig: ButtonConfig = buttonconfig1
+    private var chosenConfigIndex: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_config)
-        loadConfig(chosenConfig)
+        loadConfig(chosenConfigIndex)
         setupSpinner()
         setupListener()
     }
@@ -35,17 +34,14 @@ class ConfigActivity : AppCompatActivity() {
             }
 
             override fun onItemSelected(p0: AdapterView<*>?, view: View?, i: Int, l: Long) {
-                chosenConfig = if (i == 0) {
-                    buttonconfig1
-                } else {
-                    buttonconfig2
-                }
-                loadConfig(chosenConfig)
+                chosenConfigIndex = i
+                loadConfig(chosenConfigIndex)
             }
         }
     }
 
-    private fun loadConfig(bc: ButtonConfig) {
+    private fun loadConfig(index: Int) {
+        val bc = ButtonConfigManager.getConfig(index)
         btn_11.text = ButtonFactory.getSymbol(bc.btn11)
         btn_12.text = ButtonFactory.getSymbol(bc.btn12)
         btn_13.text = ButtonFactory.getSymbol(bc.btn13)
@@ -69,10 +65,10 @@ class ConfigActivity : AppCompatActivity() {
     }
 
     private fun resetConfig() {
-        if (chosenConfig == buttonconfig1) {
-            buttonconfig1.initConfig1()
-        } else {
-            buttonconfig2.initConfig2()
+        when (chosenConfigIndex) {
+            0 -> ButtonConfigManager.initConfig1(0)
+            1 -> ButtonConfigManager.initConfig2(1)
+            else -> ButtonConfigManager.initConfigEmpty(chosenConfigIndex)
         }
     }
 
@@ -124,17 +120,13 @@ class ConfigActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         val intent = Intent()
-        val configList = ArrayList<ButtonConfig>()
-        configList.add(buttonconfig1)
-        configList.add(buttonconfig2)
-        val jsonStr: String = Gson().toJson(configList)
-        intent.putExtra("buttonConfig_json", jsonStr)
         setResult(RESULT_OK, intent)
         super.onBackPressed()
     }
 
     private fun assignNewBtn(btnNum: Int, text: String) {
         val btnType = ButtonFactory.getType(text)
+        val chosenConfig = ButtonConfigManager.getConfig(chosenConfigIndex)
         when (btnNum) {
             11 -> {
                 btn_11.text = text
@@ -217,6 +209,7 @@ class ConfigActivity : AppCompatActivity() {
                 chosenConfig.btn54 = btnType
             }
         }
+        ButtonConfigManager.updateTargetConfig(chosenConfigIndex,chosenConfig)
     }
 
 }
