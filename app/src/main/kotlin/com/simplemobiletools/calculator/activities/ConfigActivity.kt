@@ -71,6 +71,8 @@ class ConfigActivity : AppCompatActivity() {
             1 -> ButtonConfigManager.initConfig2()
             else -> ButtonConfigManager.initConfigEmpty()
         }
+        ButtonConfigManager.updateTargetConfig(chosenConfigIndex,bc)
+        loadConfig(chosenConfigIndex)
     }
 
     private fun setupListener() {
