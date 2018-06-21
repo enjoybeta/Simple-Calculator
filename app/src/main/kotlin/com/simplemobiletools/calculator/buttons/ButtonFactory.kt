@@ -34,10 +34,13 @@ object ButtonFactory {
         SIN,
         COS,
         TAN,
-        LOG,
+        LOGTWO,
+        LOGTEN,
+        LOGE,
         PI,
         BRACKET_LEFT,
-        BRACKET_RIGHT;
+        BRACKET_RIGHT,
+        E;
     }
 
     fun getSymbol(m: ButtonFactory.ButtonType): String {
@@ -70,10 +73,13 @@ object ButtonFactory {
             SIN -> "sin"
             COS -> "cos"
             TAN -> "tan"
-            LOG -> "log"
+            LOGTWO -> "log2"
+            LOGTEN -> "log10"
+            LOGE -> "loge"
             PI -> "π"
             BRACKET_LEFT -> "("
             BRACKET_RIGHT -> ")"
+            E -> "e"
             else -> "error"
         }
     }
@@ -108,10 +114,13 @@ object ButtonFactory {
             "sin" -> SIN
             "cos" -> COS
             "tan" -> TAN
-            "log" -> LOG
+            "log2" -> LOGTWO
+            "log10" -> LOGTEN
+            "loge" -> LOGE
             "π" -> PI
             "(" -> BRACKET_LEFT
             ")" -> BRACKET_RIGHT
+            "e" -> E
             else -> EMPTY
         }
     }
@@ -150,10 +159,13 @@ object ButtonFactory {
             SIN -> BtnSin()
             COS -> BtnCos()
             TAN -> BtnTan()
-            LOG -> BtnLog()
+            LOGTWO -> BtnLogTwo()
+            LOGTEN -> BtnLogTen()
+            LOGE -> BtnLogE()
             PI -> BtnPi()
             BRACKET_LEFT -> BtnBracketLeft()
             BRACKET_RIGHT -> BtnBracketRight()
+            E -> BtnE()
         }
     }
 
@@ -242,7 +254,34 @@ object ButtonFactory {
             if (Calculator.formula.isEmpty()) {
                 return
             }
-            Calculator.formula = Calculator.formula.substring(0, Calculator.formula.length - 1)
+            var needToDel: Int = 1
+            val reversedStr = Calculator.formula.reversed()
+            when {
+                Calculator.formula.length >= 6 -> run {
+                    when {
+                        reversedStr.substring(0, 6) == "(01gol" -> needToDel = 6//delete "log10("
+                    }
+                }
+                Calculator.formula.length >= 5 -> {
+                    when {
+                        reversedStr.substring(0, 5) == "(2gol" -> needToDel = 5//delete "log2("
+                        reversedStr.substring(0, 5) == "(egol" -> needToDel = 5//delete "loge("
+                    }
+                }
+                Calculator.formula.length >= 4 -> {
+                    when {
+                        reversedStr.substring(0, 4) == "(nis" -> needToDel = 4//delete "sin("
+                        reversedStr.substring(0, 4) == "(soc" -> needToDel = 4//delete "cos("
+                        reversedStr.substring(0, 4) == "(nat" -> needToDel = 4//delete "tan("
+                    }
+                }
+                Calculator.formula.length >= 3 -> {
+                    when {
+                        reversedStr.substring(0, 3) == "dom" -> needToDel = 3//delete "mod"
+                    }
+                }
+            }
+            Calculator.formula = Calculator.formula.substring(0, Calculator.formula.length - needToDel)
         }
 
         override fun handleLongClick() {
@@ -317,9 +356,21 @@ object ButtonFactory {
         }
     }
 
-    private class BtnLog : Buttons() {
+    private class BtnLogTwo : Buttons() {
         override fun handleClick() {
-            Calculator.formula += getSymbol(LOG) + "10("
+            Calculator.formula += getSymbol(LOGTWO) + "("
+        }
+    }
+
+    private class BtnLogTen : Buttons() {
+        override fun handleClick() {
+            Calculator.formula += getSymbol(LOGTEN) + "("
+        }
+    }
+
+    private class BtnLogE : Buttons() {
+        override fun handleClick() {
+            Calculator.formula += getSymbol(LOGE) + "("
         }
     }
 
@@ -338,6 +389,12 @@ object ButtonFactory {
     private class BtnBracketRight : Buttons() {
         override fun handleClick() {
             Calculator.formula += getSymbol(BRACKET_RIGHT)
+        }
+    }
+
+    private class BtnE : Buttons() {
+        override fun handleClick() {
+            Calculator.formula += getSymbol(E)
         }
     }
 }
